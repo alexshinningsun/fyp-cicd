@@ -1,0 +1,34 @@
+---
+- name: FYP redo docker-compose up when there are new merge on main branch
+  hosts: localhost
+  connection: local 
+  tasks:
+    - name: Ensure the source code folder can run git command
+      command: /usr/bin/git --git-dir {{source_code_path}}.git rev-parse HEAD
+      register: old_git_cmd
+    
+    - name: 
+      ansible.builtin.debug:
+        msg: "The output of git command: {{old_git_cmd.stdout}}"
+
+    - name:
+      command: /usr/bin/git --git-dir {{source_code_path}}.git pull
+      register: git_update_cmd
+
+    - name:
+      command: /usr/bin/git --git-dir {{source_code_path}}.git rev-parse HEAD
+      register: new_git_cmd
+
+    - name:
+      ansible.builtin.debug:
+        msg: "The output of git command: {{new_git_cmd.stdout}}"
+
+    - name: 
+      command: docker-compose -f {{source_code_path}}docker-compose.yml down
+      register: docker_compose_down
+      when: old_git_cmd.stdout != new_git_cmd.stdout
+    
+    - name:
+      command: docker-compose -f {{source_code_path}}docker-compose.yml up
+      register: docker_compose_down
+      when: old_git_cmd.stdout != new_git_cmd.stdout
