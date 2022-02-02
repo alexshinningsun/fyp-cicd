@@ -12,5 +12,5 @@ The restart procedules are $docker-compose down and $docker-compose up
 # How to use?
   1.  Please edit the source code path in ./group_vars/all.yml file. E.G. source_code_path: ~/RIC-1-Backend/
   2.  ansible-playbook main.yml
-  3.   *  *  *  *  * root ansible-playbook /root/fyp-ansible/main.yml  >> /tmp/cron.log
-        Add the cron to /etc/crontab when you are using root account
+  3.  Add the cron to /etc/crontab when you are using root account
+  `*  *  *  *  * root ansible-playbook /root/fyp-cicd/main.yml  >> /var/log/fyp-ansible.log 2>&1`
