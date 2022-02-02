@@ -30,5 +30,5 @@
     
     - name:
       command: docker-compose -f {{source_code_path}}docker-compose.yml up
-      register: docker_compose_down
+      register: docker_compose_up
       when: old_git_cmd.stdout != new_git_cmd.stdout
