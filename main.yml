@@ -13,14 +13,20 @@
     - name: Reset source code
       command: /usr/bin/git --git-dir {{source_code_path}}.git reset --hard HEAD
       register: git_update_cmd
-      
+      args:
+        chdir: {{source_code_path}}
+        
     - name: Pull the lateset Source code
       command: /usr/bin/git --git-dir {{source_code_path}}.git pull
       register: git_update_cmd
+      args:
+        chdir: {{source_code_path}}
 
     - name:
       command: /usr/bin/git --git-dir {{source_code_path}}.git rev-parse HEAD
       register: new_git_cmd
+      args:
+        chdir: {{source_code_path}}
 
     - name:
       ansible.builtin.debug:
@@ -29,9 +35,13 @@
     - name: 
       command: docker-compose -f {{source_code_path}}docker-compose.yml down
       register: docker_compose_down
+      args:
+        chdir: {{source_code_path}}
       when: old_git_cmd.stdout != new_git_cmd.stdout
     
     - name:
       command: docker-compose -f {{source_code_path}}docker-compose.yml up
       register: docker_compose_up
+      args:
+        chdir: {{source_code_path}}
       when: old_git_cmd.stdout != new_git_cmd.stdout
