@@ -17,6 +17,7 @@
       register: old_git_cmd
       args:
         chdir: "{{ source_code_path }}"
+      ignore_errors: yes
         
     - name: Pull the lateset Source code
       command: /usr/bin/git --git-dir {{ source_code_path }}.git pull
