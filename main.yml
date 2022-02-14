@@ -19,7 +19,7 @@
         chdir: "{{ source_code_path }}"
       ignore_errors: yes
         
-    - name: Pull the lateset Source code
+    - name: Pull the latest Source code
       command: /usr/bin/git --git-dir {{ source_code_path }}.git pull {{ remote_name }} {{ branch_name }}
       register: git_update_cmd
       args:
@@ -37,7 +37,7 @@
         msg: "The output of git command: {{ new_git_cmd.stdout }}"
 
     - name: 
-      command: docker-compose -f {{ source_code_path }}docker-compose.yml down
+      command: /usr/local/bin/docker-compose -f {{ source_code_path }}docker-compose.yml down
       register: docker_compose_down
       ignore_errors: yes
       args:
@@ -45,7 +45,7 @@
       when: old_git_cmd.stdout != new_git_cmd.stdout
     
     - name:
-      command: docker-compose -f {{ source_code_path }}docker-compose.yml up
+      command: /usr/local/bin/docker-compose -f {{ source_code_path }}docker-compose.yml up
       register: docker_compose_up
       args:
         chdir: "{{ source_code_path }}"
