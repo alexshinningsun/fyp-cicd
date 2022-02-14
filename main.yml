@@ -4,45 +4,45 @@
   connection: local 
   tasks:
     - name: Ensure the source code folder can run git command
-      command: /usr/bin/git --git-dir {{source_code_path}}.git rev-parse HEAD
+      command: /usr/bin/git --git-dir {{ source_code_path }}.git rev-parse HEAD
       register: old_git_cmd
       args:
-        chdir: {{source_code_path}}
+        chdir: {{ source_code_path }}
     - name: 
       ansible.builtin.debug:
-        msg: "The output of git command: {{old_git_cmd.stdout}}"
+        msg: "The output of git command: {{ old_git_cmd.stdout }}"
     #- name: Reset source code
-    #  command: /usr/bin/git --git-dir {{source_code_path}}.git reset --hard HEAD
+    #  command: /usr/bin/git --git-dir {{ source_code_path }}.git reset --hard HEAD
     #  register: git_update_cmd
     #  args:
-    #    chdir: {{source_code_path}}
+    #    chdir: {{ source_code_path }}
         
     - name: Pull the lateset Source code
-      command: /usr/bin/git --git-dir {{source_code_path}}.git pull
+      command: /usr/bin/git --git-dir {{ source_code_path }}.git pull
       register: git_update_cmd
       args:
-        chdir: {{source_code_path}}
+        chdir: {{ source_code_path }}
 
     - name:
-      command: /usr/bin/git --git-dir {{source_code_path}}.git rev-parse HEAD
+      command: /usr/bin/git --git-dir {{ source_code_path }}.git rev-parse HEAD
       register: new_git_cmd
       args:
-        chdir: {{source_code_path}}
+        chdir: {{ source_code_path }}
 
     - name:
       ansible.builtin.debug:
-        msg: "The output of git command: {{new_git_cmd.stdout}}"
+        msg: "The output of git command: {{ new_git_cmd.stdout }}"
 
     - name: 
-      command: docker-compose -f {{source_code_path}}docker-compose.yml down
+      command: docker-compose -f {{ source_code_path }}docker-compose.yml down
       register: docker_compose_down
       args:
-        chdir: {{source_code_path}}
+        chdir: {{ source_code_path }}
       when: old_git_cmd.stdout != new_git_cmd.stdout
     
     - name:
-      command: docker-compose -f {{source_code_path}}docker-compose.yml up
+      command: docker-compose -f {{ source_code_path }}docker-compose.yml up
       register: docker_compose_up
       args:
-        chdir: {{source_code_path}}
+        chdir: {{ source_code_path }}
       when: old_git_cmd.stdout != new_git_cmd.stdout
