@@ -12,15 +12,15 @@
       ansible.builtin.debug:
         msg: "The output of git command: {{ old_git_cmd.stdout }}"
         
-    - name: Ensure the source code folder is Clean for $git pull stash
-      command: /usr/bin/git --git-dir {{ source_code_path }}.git 
+    - name: Ensure the source code folder is Clean for $git pull 
+      command: /usr/bin/git --git-dir {{ source_code_path }}.git stash
       register: old_git_cmd
       args:
         chdir: "{{ source_code_path }}"
       ignore_errors: yes
         
     - name: Pull the lateset Source code
-      command: /usr/bin/git --git-dir {{ source_code_path }}.git pull
+      command: /usr/bin/git --git-dir {{ source_code_path }}.git pull {{ remote_name }} {{ branch_name }}
       register: git_update_cmd
       args:
         chdir: "{{ source_code_path }}"
