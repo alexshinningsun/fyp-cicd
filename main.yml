@@ -7,7 +7,7 @@
       command: /usr/bin/git --git-dir {{ source_code_path }}.git rev-parse HEAD
       register: old_git_cmd
       args:
-        chdir: {{ source_code_path }}
+        chdir: source_code_path
     - name: 
       ansible.builtin.debug:
         msg: "The output of git command: {{ old_git_cmd.stdout }}"
