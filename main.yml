@@ -31,6 +31,7 @@
     - name: 
       command: docker-compose -f {{ source_code_path }}docker-compose.yml down
       register: docker_compose_down
+      ignore_errors: yes
       args:
         chdir: "{{ source_code_path }}"
       when: old_git_cmd.stdout != new_git_cmd.stdout
