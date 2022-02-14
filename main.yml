@@ -43,9 +43,22 @@
         chdir: "{{ source_code_path }}"
       when: old_git_cmd.stdout != new_git_cmd.stdout
     
+    #- name: Docker Compose rebuild images
+    #  command: /usr/local/bin/docker-compose build -f {{ source_code_path }}docker-compose.yml 
+    #  args:
+    #    chdir: "{{ source_code_path }}"
+    #  when: old_git_cmd.stdout != new_git_cmd.stdout
+    
+
+      
     - name: Docker Compose Up services
-      command: /usr/local/bin/docker-compose -f {{ source_code_path }}docker-compose.yml up
+      command: /usr/local/bin/docker-compose -f {{ source_code_path }}docker-compose.yml up --build
       register: docker_compose_up
+      args:
+        chdir: "{{ source_code_path }}"
+      when: old_git_cmd.stdout != new_git_cmd.stdout
+    - name: Docker Compose delete <none> images
+      command: /usr/bin/docker rmi $(docker images --filter “dangling=true” -q --no-trunc)
       args:
         chdir: "{{ source_code_path }}"
       when: old_git_cmd.stdout != new_git_cmd.stdout
