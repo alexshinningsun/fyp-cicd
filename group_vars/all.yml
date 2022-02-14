@@ -1,1 +1,3 @@
 source_code_path: ~/RIC-1-Backend/
+remote_name: origin
+branch_name: production
