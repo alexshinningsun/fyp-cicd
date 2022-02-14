@@ -14,7 +14,6 @@
         
     - name: Ensure the source code folder is Clean for $git pull 
       command: /usr/bin/git --git-dir {{ source_code_path }}.git stash
-      register: old_git_cmd
       args:
         chdir: "{{ source_code_path }}"
       ignore_errors: yes
