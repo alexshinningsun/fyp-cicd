@@ -11,11 +11,6 @@
     - name: 
       ansible.builtin.debug:
         msg: "The output of git command: {{ old_git_cmd.stdout }}"
-    #- name: Reset source code
-    #  command: /usr/bin/git --git-dir {{ source_code_path }}.git reset --hard HEAD
-    #  register: git_update_cmd
-    #  args:
-    #    chdir: {{ source_code_path }}
         
     - name: Pull the lateset Source code
       command: /usr/bin/git --git-dir {{ source_code_path }}.git pull
