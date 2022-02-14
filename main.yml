@@ -17,7 +17,9 @@
       register: git_update_cmd
       args:
         chdir: "{{ source_code_path }}"
-
+      failed_when: >
+        ("No such file or directory" in ret.stdout) or
+        (ret.stderr != '')
     - name:
       command: /usr/bin/git --git-dir {{ source_code_path }}.git rev-parse HEAD
       register: new_git_cmd
