@@ -58,7 +58,7 @@
         chdir: "{{ source_code_path }}"
       when: old_git_cmd.stdout != new_git_cmd.stdout
     - name: Docker Compose delete <none> images
-      command: /usr/bin/docker rmi $(docker images --filter “dangling=true” -q --no-trunc)
+      command: /usr/bin/docker rmi $(docker images --filter 'dangling=true' -q --no-trunc)
       args:
         chdir: "{{ source_code_path }}"
       when: old_git_cmd.stdout != new_git_cmd.stdout
